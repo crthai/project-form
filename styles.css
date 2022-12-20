@@ -2,6 +2,7 @@
 
 * {
   font-family: "Arvo", sans-serif;
+  font-weight: 300;
   list-style: none;
   text-decoration: none;
   margin: 0;
@@ -59,7 +60,7 @@ body {
   background: #b4dfe5;
 }
 
-.navbar ul li a.a_parent:active + .menu {
+.navbar ul li a.a_parent.active + .menu {
   display: block;
 }
 

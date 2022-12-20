@@ -10,10 +10,10 @@
   <body>
     <header>
       <div class="wrapper">
-        <div class="navbar">
+        <nav class="navbar">
           <ul>
             <li>
-              <a href="#" class="a_parent">
+              <a href="https://www.google.com" class="a_parent">
                 <div class="wrap">
                   <span class="text"> Home </span>
                 </div>
@@ -52,38 +52,34 @@
               </a>
             </li>
           </ul>
-        </div>
+        </nav>
       </div>
     </header>
-    <section>
-      <div class="grid-container">
-        <img src="./assets/image_1.png" alt="Mulher desenvolvendo algo" />
-        <img src="./assets/image_2.jpg" alt="Designer criando ilustrações" />
-        <img src="./assets/image_3.avif" alt="Homem pensando" />
-        <img src="./assets/image_1.png" alt="Mulher desenvolvendo algo" />
-        <img src="./assets/image_2.jpg" alt="Designer criando ilustrações" />
-        <img src="./assets/image_3.avif" alt="Homem pensando" />
+    <section class="grid-container">
+      <img src="./assets/image_1.png" alt="Mulher desenvolvendo algo" />
+      <img src="./assets/image_2.jpg" alt="Designer criando ilustrações" />
+      <img src="./assets/image_3.avif" alt="Homem pensando" />
+      <img src="./assets/image_1.png" alt="Mulher desenvolvendo algo" />
+      <img src="./assets/image_2.jpg" alt="Designer criando ilustrações" />
+      <img src="./assets/image_3.avif" alt="Homem pensando" />
+    </section>
+    <section class="container">
+      <div class="form-container">
+        <form class="form" id="form">
+          <div class="form-control">
+            <label for="name">Full name: </label>
+            <input type="text" placeholder="Nome qualquer" id="name" />
+            <small> Error message </small>
+          </div>
+          <div class="form-control">
+            <label for="email">E-mail: </label>
+            <input type="text" placeholder="nome@gmail.com" id="email" />
+            <small> Error message </small>
+          </div>
+          <button>Submit</button>
+        </form>
       </div>
     </section>
-    <div class="container">
-      <section>
-        <div class="form-container">
-          <form class="form" id="form">
-            <div class="form-control">
-              <label for="name">Full name: </label>
-              <input type="text" placeholder="Nome qualquer" id="name" />
-              <small> Error message </small>
-            </div>
-            <div class="form-control">
-              <label for="email">E-mail: </label>
-              <input type="text" placeholder="nome@gmail.com" id="email" />
-              <small> Error message </small>
-            </div>
-            <button>Submit</button>
-          </form>
-        </div>
-      </section>
-    </div>
     <script src="./script.js"></script>
   </body>
 </html>
