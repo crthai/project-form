@@ -1,5 +1,3 @@
-const $form = document.getElementById("form");
-
 const setupEvents = () => {
   setupNavLinkEvents();
   setupNavMenuEvents();
@@ -28,77 +26,73 @@ const setupNavMenuEvents = () => {
   });
 };
 
- const setupSubmitEvent = () => { 
-  $form.addEventListener("submit", (e) => {
-  try {
-    let formData = new FormData($form);
-    console.log(
-      "Name:" + formData.get("name"),
-      "Email:" + formData.get("email"),
-    );
-    let name = formData.get("name");
-    let email = formData.get("email");
+const setupSubmitEvent = () => {
+  const $form = document.getElementById("form");
+  if ($form) {
+    $form.addEventListener("submit", (e) => {
+      try {
+        e.preventDefault();
+        const formData = new FormData($form);
+        const name = formData.get("name");
+        const email = formData.get("email");
+        console.log(`Name: ${name}`, `Email: ${email}`);
 
-    e.preventDefault();
-    checkInputs()
-      .then(() => {
-        alert(
-          "O usuário " +
-            name +
-            " foi registrado com o e-mail " +
-            email
-        );
-      })
-      .catch(() => {
-        console.log("Oops...");
-      });
-  } catch (e) {
-    console.log("Oops 2...");
+        checkInputs($form)
+          .then(() => {
+            alert(`O usuário ${name} foi registrado com o e-mail ${email}`);
+          })
+          .catch(() => {
+            console.log("Oops...");
+          });
+      } catch (e) {
+        console.log("Oops 2...");
+      }
+    });
   }
-});
-} 
+};
 
-function checkInputName() {
-  //get the values from the inputs and remove whitespace
-  return new Promise((resolve, reject) => {
-    const $name = document.getElementById("name");
-    const nameValue = $name.value.trim();
-    if (!nameValue) {
-      return setErrorFor($name, "Name cannot be blank.").then(() => {
-        reject(false);
-      });
-    }
+// function checkInputName() {
+//   return new Promise((resolve, reject) => {
+//     //get the values from the inputs and remove whitespace
+//     const $name = document.getElementById("name");
+//     const nameValue = $name.value.trim();
+//     if (!nameValue) {
+//       return setErrorFor($name, "Name cannot be blank.").then(() => {
+//         reject(false);
+//       });
+//     }
 
-    return setSuccessFor($name).then(() => {
-      resolve(true);
-    });
-  });
-}
+//     return setSuccessFor($name).then(() => {
+//       resolve(true);
+//     });
+//   });
+// }
 
-function checkInputEmail() {
-  //get the values from the inputs and remove whitespace
-  return new Promise((resolve, reject) => {
-    const $email = document.getElementById("email");
-    const emailValue = $email.value.trim();
-    if (!emailValue) {
-      return setErrorFor($email, "Email cannot be blank.").then(() => {
-        reject(false);
-      });
-    }
-    return setSuccessFor($email).then(() => {
-      resolve(true);
-    });
-  });
-}
+// function checkInputEmail() {
+//   return new Promise((resolve, reject) => {
+//     //get the values from the inputs and remove whitespace
+//     const $email = document.getElementById("email");
+//     const emailValue = $email.value.trim();
+//     if (!emailValue) {
+//       return setErrorFor($email, "Email cannot be blank.").then(() => {
+//         reject(false);
+//       });
+//     }
+//     return setSuccessFor($email).then(() => {
+//       resolve(true);
+//     });
+//   });
+// }
 
-function checkInputs() {
-  return Promise.all([checkInputName(), checkInputEmail()]);
+function checkInputs($form) {
+  // return Promise.all([checkInputName(), checkInputEmail()]);
+  return validatorTaissa($form)
 }
 
 function setErrorFor($input, message) {
   return new Promise((resolve) => {
-    const $formControl = $input.closest('.form-control');
-    const $messageError = $formControl.querySelector('.message-error');
+    const $formControl = $input.closest(".form-control");
+    const $messageError = $formControl.querySelector(".message-error");
     $messageError.textContent = message;
     $formControl.className = "form-control error";
     return resolve(true);
@@ -107,7 +101,7 @@ function setErrorFor($input, message) {
 
 function setSuccessFor($input) {
   return new Promise((resolve) => {
-    const $formControl = $input.closest('.form-control');
+    const $formControl = $input.closest(".form-control");
     $formControl.className = "form-control success";
     setTimeout(() => {
       resolve(true);
@@ -115,46 +109,65 @@ function setSuccessFor($input) {
   });
 }
 
-const getType = (value) => {
-  const type = Object.prototype.toString.call(value).slice(1, -1).split(" ");
-
-  return type && type[1].toLowerCase();
+const validatorFunctions = {
+  email: (value) => {
+    const emailValue = value.trim();
+    if (!emailValue) {
+      return false;
+    }
+    return true;
+  },
+  name: (value) => {
+    const nameValue = value.trim();
+    if (!nameValue) {
+      return false;
+    }
+    return true;
+  },
 };
 
-const validations = {
-  isEmpty: ({ value }) => {
-      const valueIsType = getType(value);
+const validatorMessages = {
+  email: "Email cannot be blank.",
+  name: "Name cannot be blank.",
+};
 
-      if (valueIsType === "string") return !value.trim().length;
+const validatorTaissa = ($form) => {
+  const VT_KEY = "vt-type";
+  const VT_REQUIRED = "vt-required";
+  const formData = new FormData($form);
+  const $inputs = $form.querySelectorAll("inputs");
+  let formState = true;
 
-      return true;
-  },
-  email: ({ value }) => {
-      const isEmpty = validations.isEmpty({ value });
-      const returnValue = {
-          isValid: false,
-          message: null,
-      };
+  $inputs.forEach(($input) => {
+    const validatorType = $input.dataset[VT_KEY];
+    const isRequired = $input.dataset[VT_REQUIRED];
+    const inputName = $input.name;
+    const inputValue = formData.get(inputName);
 
-      if (isEmpty === true) {
-          returnValue.message = "Email is required";
-          return returnValue;
-      }
+    let inputState = true;
 
-      return returnValue;
-  },
-  username: ({ value }) => {
-      const isEmpty = validations.isEmpty({ value });
-      const returnValue = {
-          isValid: !isEmpty,
-          message: null,
-      };
-      if (isEmpty === true) {
-        returnValue.message = "Email is required";
-        return returnValue;
+    if (isRequired && !inputValue) {
+      inputState = false;
     }
-      return returnValue;
-  },
+
+    if (
+      inputValue &&
+      validatorType &&
+      !validatorFunctions[validatorType](inputValue)
+    ) {
+      inputState = false;
+    }
+
+    if (inputState) {
+      setSuccessFor($input);
+    } else {
+      setErrorFor($input, validatorMessages[validatorType]);
+    }
+
+    formState = formState && inputState;
+  });
+
+  return formState;
 };
 
 window.addEventListener("load", (event) => {
