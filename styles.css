@@ -2,6 +2,7 @@
 
 * {
   font-family: "Arvo", sans-serif;
+  font-weight: 300;
   list-style: none;
   text-decoration: none;
   margin: 0;
@@ -54,16 +55,16 @@ body {
 
 .navbar ul li a:hover,
 .navbar ul li a:active,
-.navbar .menu ul li a:hover,
-.navbar .menu ul li a:active {
+.navbar .nav-menu ul li a:hover,
+.navbar .nav-menu ul li a:active {
   background: #b4dfe5;
 }
 
-.navbar ul li a.a_parent:active + .menu {
+.navbar ul li a.nav-link.active + .nav-menu {
   display: block;
 }
 
-.navbar .menu {
+.navbar .nav-menu {
   position: absolute;
   top: 80px;
   left: 0;
@@ -71,13 +72,13 @@ body {
   z-index: 1000;
 }
 
-.navbar .menu ul li a {
+.navbar .nav-menu ul li a {
   width: 180px;
   background-color: #f4976c;
   text-align: left;
   padding: 20px 18px;
 }
-.navbar .menu:before {
+.navbar .nav-menu:before {
   content: "";
   position: absolute;
   top: -30px;
@@ -155,7 +156,7 @@ img {
   width: 100%;
 }
 
-.form-control small {
+.message-error{
   position: absolute;
   bottom: 0;
   left: 0;
@@ -186,7 +187,7 @@ img {
   border-color: #e74c3c;
 }
 
-.form-control.error small {
+.form-control.error .message-error{
   color: #e74c3c;
   visibility: visible;
 }
