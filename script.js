@@ -27,7 +27,7 @@ const setupNavMenuEvents = () => {
 };
 
 const showSucessAlert = ($form) => {
-  setTimeout(function () {
+  setTimeout(() => {
     const name = $form.querySelector('input[name="name"]').value;
     const email = $form.querySelector('input[name="email"]').value;
     alert(`O usuário ${name} foi registrado com o e-mail ${email}`);
