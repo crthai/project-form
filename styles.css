@@ -64,6 +64,10 @@ body {
   display: block;
 }
 
+@media screen and (max-width: 600px) {
+  .navbar {position: relative;}
+}
+
 .navbar .nav-menu {
   position: absolute;
   top: 80px;
@@ -96,18 +100,29 @@ body {
   margin-top: 5px;
   width: 100vw;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 150px));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 3fr));
   column-gap: 10px;
   row-gap: 10px;
   left: 100px;
 }
-@media (max-width: 600px) {
+
+@media screen and (max-width: 800px) {
   .grid-container {
-    grid-template-columns: repeat(3, 1fr);
-    left: 0;
+    flex: 50%;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
+    max-width: 50%;
   }
 }
 
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
+
+    flex: 100%;
+    max-width: 100%;
+  }
+}
 img {
   width: 150px;
   height: 150px;
