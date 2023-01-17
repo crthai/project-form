@@ -1,16 +1,15 @@
 {
-  "name": "responsive-navbar",
+  "name": "project-form",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A simple project to learn web development",
+  "main": "./src/js/main.js",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel ./src/index.html"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Taissa Freire",
+  "license": "MIT",
   "devDependencies": {
-    "lodash": "^4.17.21",
     "parcel": "^2.8.2"
   }
 }
