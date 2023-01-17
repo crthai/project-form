@@ -2,9 +2,10 @@
   "name": "project-form",
   "version": "1.0.0",
   "description": "A simple project to learn web development",
-  "main": "./src/js/main.js",
+  "source": "src/index.html",
   "scripts": {
-    "start": "parcel ./src/index.html"
+    "start": "parcel",
+    "build": "parcel build"
   },
   "keywords": [],
   "author": "Taissa Freire",
