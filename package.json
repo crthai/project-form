@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A simple project to learn web development",
   "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel",
     "build": "parcel build"

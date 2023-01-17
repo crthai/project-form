@@ -1,13 +1,15 @@
-const navMenu = document.getElementById("nav-menu"),
-  toggleMenu = document.getElementById("toggle-menu"),
-  closeMenu = document.getElementById("close-menu");
+import { validator } from './validator';
 
-toggleMenu.addEventListener("click", () => {
-  navMenu.classList.toggle("show");
+const navMenu = document.getElementById('nav-menu'),
+  toggleMenu = document.getElementById('toggle-menu'),
+  closeMenu = document.getElementById('close-menu');
+
+toggleMenu.addEventListener('click', () => {
+  navMenu.classList.toggle('show');
 });
 
-closeMenu.addEventListener("click", () => {
-  navMenu.classList.remove("show");
+closeMenu.addEventListener('click', () => {
+  navMenu.classList.remove('show');
 });
 
 const setupEvents = () => {
@@ -17,27 +19,27 @@ const setupEvents = () => {
 };
 
 function toggleMobileMenu(menu) {
-  menu.classList.toggle("open");
+  menu.classList.toggle('open');
 }
 
 const setupNavLinkEvents = () => {
-  const $navLinks = document.querySelectorAll(".nav-link");
+  const $navLinks = document.querySelectorAll('.nav-link');
   $navLinks.forEach(function ($navLink) {
-    $navLink.addEventListener("mouseenter", function () {
+    $navLink.addEventListener('mouseenter', function () {
       $navLinks.forEach(($internalNavLink) =>
-        $internalNavLink.classList.remove("active")
+        $internalNavLink.classList.remove('active')
       );
-      $navLink.classList.add("active");
+      $navLink.classList.add('active');
     });
   });
 };
 
 const setupNavMenuEvents = () => {
-  const $navMenus = document.querySelectorAll(".nav-menu");
+  const $navMenus = document.querySelectorAll('.nav-menu');
   $navMenus.forEach(function ($navMenu) {
-    $navMenu.addEventListener("mouseleave", function () {
-      const $navLink = $navMenu.parentElement.querySelector(".nav-link");
-      $navLink.classList.remove("active");
+    $navMenu.addEventListener('mouseleave', function () {
+      const $navLink = $navMenu.parentElement.querySelector('.nav-link');
+      $navLink.classList.remove('active');
     });
   });
 };
@@ -51,9 +53,9 @@ const showSucessAlert = ($form) => {
 };
 
 const setupSubmitEvent = () => {
-  const $form = document.getElementById("form");
+  const $form = document.getElementById('form');
   if ($form) {
-    $form.addEventListener("submit", (e) => {
+    $form.addEventListener('submit', (e) => {
       e.preventDefault();
       const validForm = validator.validateForm($form);
       if (validForm) {
@@ -63,6 +65,6 @@ const setupSubmitEvent = () => {
   }
 };
 
-window.addEventListener("load", (event) => {
+window.addEventListener('load', (event) => {
   setupEvents();
 });

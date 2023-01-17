@@ -74,3 +74,5 @@ const validator = {
     return allStepsAreValid;
   },
 };
+
+export { validator };
