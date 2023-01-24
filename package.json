@@ -13,5 +13,8 @@
   "license": "MIT",
   "devDependencies": {
     "parcel": "^2.8.2"
+  },
+  "dependencies": {
+    "@ionic/core": "^6.5.0"
   }
 }
