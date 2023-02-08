@@ -1,0 +1,23 @@
+.footer {
+  background-color: black;
+  height: auto;
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer .footer-content {
+  background-color: #222831;
+  width: 100vw;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer .footer-content p {
+  font-size: 14px;
+  word-spacing: 2px;
+  padding: 0.23rem;
+  margin: 0.23rem;
+}
