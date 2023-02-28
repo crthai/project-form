@@ -15,11 +15,11 @@ describe('InputValidation', () => {
     const isNameValid = validator.validatorByType.name.validate(inputName.Fulana);
     expect(isNameValid).toEqual(true);
 
-    const isNameInvalid = validator.validatorByType.name.validate(inputName.Cicrana);
-    if (!isNameInvalid) {
-      expect(validator.validatorByType.name.message(inputName.Cicrana)).toEqual('CicranaField cannot be blank.');
-    }
+    const isCicranaNameValid = validator.validatorByType.name.validate(inputName.Cicrana);
+    expect(isCicranaNameValid).toEqual(false);
+    expect(validator.validatorByType.name.message(inputName.Cicrana)).toEqual('CicranaField cannot be blank.');
   });
+
   it('should validate the email correctly', () => {
     const inputEmail = {
       Fulana: {
@@ -27,15 +27,14 @@ describe('InputValidation', () => {
         name: 'FulanaFieldEmail',
       },
       Cicrana: {
-        value: 'fulanateste',
-        name: 'FulanaFieldEmail',
+        value: 'cicranateste',
+        name: 'CicranaFieldEmail',
       },
     };
 
-    const isEmailInvalid = validator.validatorByType.email.validate(inputEmail.Cicrana);
-    if (!isEmailInvalid) {
-      expect(validator.validatorByType.email.message(inputEmail.Cicrana)).toEqual('Invalid email format');
-    }
+    const isCricranaEmailValid = validator.validatorByType.email.validate(inputEmail.Cicrana);
+    expect(isCricranaEmailValid).toEqual(false);
+    expect(validator.validatorByType.email.message(inputEmail.Cicrana)).toEqual('Invalid email format');
     const isEmailValid = validator.validatorByType.email.validate(inputEmail.Fulana);
     expect(isEmailValid).toEqual(true);
   });

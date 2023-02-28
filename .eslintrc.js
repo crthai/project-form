@@ -15,4 +15,5 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-bitwise': 'off',
   },
+  plugins: ['html'],
 };
