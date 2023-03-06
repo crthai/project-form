@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap");
+
 @font-face {
   font-family: 'icomoon';
   src:  url('../fonts/icomoon.eot?35kwmn');
@@ -5,6 +7,13 @@
     url('../fonts/icomoon.ttf?35kwmn') format('truetype'),
     url('../fonts/icomoon.woff?35kwmn') format('woff'),
     url('../fonts/icomoon.svg?35kwmn#icomoon') format('svg');
+    
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.eot?rimhyg");
+  src: url("../fonts/icomoon.eot?rimhyg#iefix") format("embedded-opentype"),
+    url("../fonts/icomoon.ttf?rimhyg") format("truetype"),
+    url("../fonts/icomoon.woff?rimhyg") format("woff"),
+    url("../fonts/icomoon.svg?rimhyg#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,6 +22,10 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -34,6 +47,14 @@
 .icon-cross:before {
   content: "\ea0f";
 }
+.icon-e-mail:before {
+  content: "\1f525";
+}
+=======
+.icon-happy:before {
+  content: "\1f469";
+}
+
 .icon-e-mail:before {
   content: "\1f525";
 }
