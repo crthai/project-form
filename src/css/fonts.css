@@ -1,6 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap");
 
 @font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?35kwmn');
+  src:  url('../fonts/icomoon.eot?35kwmn#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?35kwmn') format('truetype'),
+    url('../fonts/icomoon.woff?35kwmn') format('woff'),
+    url('../fonts/icomoon.svg?35kwmn#icomoon') format('svg');
+    
   font-family: "icomoon";
   src: url("../fonts/icomoon.eot?rimhyg");
   src: url("../fonts/icomoon.eot?rimhyg#iefix") format("embedded-opentype"),
@@ -12,6 +19,9 @@
   font-display: block;
 }
 
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
 [class^="icon-"],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
@@ -28,6 +38,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-menu:before {
+  content: "\e9bd";
+}
+.icon-happy:before {
+  content: "\1f469";
+}
+.icon-cross:before {
+  content: "\ea0f";
+}
+.icon-e-mail:before {
+  content: "\1f525";
+}
+=======
 .icon-happy:before {
   content: "\1f469";
 }

@@ -43,7 +43,6 @@ const setupNavMenuEvents = () => {
     });
   });
 };
-
 const showSucessAlert = ($form) => {
   setTimeout(() => {
     const name = $form.querySelector('input[name="name"]').value;
