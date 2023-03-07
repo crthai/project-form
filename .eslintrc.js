@@ -6,8 +6,7 @@ module.exports = {
     jest: true,
   },
   extends: 'airbnb-base',
-  overrides: [
-  ],
+  overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
   },
@@ -15,4 +14,5 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-bitwise': 'off',
   },
+  plugins: ['html'],
 };
