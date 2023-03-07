@@ -38,4 +38,14 @@ describe('InputValidation', () => {
     const isEmailValid = validator.validatorByType.email.validate(inputEmail.Fulana);
     expect(isEmailValid).toEqual(true);
   });
+
+  it('should validate scenario with regex expression', () => {
+    const regex = /\S+@\S+\.\S+/;
+    const emailWithoutAt = 'fulaninhagmail.com'; 
+    const emailWithoutDot = 'fulaninha@gmailcom';
+    const emailWithoutFormat = '.fulaninhagmail@com';
+    expect(regex.test(emailWithoutAt)).toBe(false);
+    expect(regex.test(emailWithoutDot)).toBe(false);
+    expect(regex.test(emailWithoutFormat)).toBe(false);
+    });
 });

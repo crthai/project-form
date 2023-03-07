@@ -12,7 +12,8 @@
     "build": "parcel build",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "tests": "npx cypress open"
   },
   "staticFiles": {
     "staticPath": "./src/static"
@@ -22,7 +23,10 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
-    "babel-jest": "^29.4.2",
+    "@parcel/packager-raw-url": "^2.8.2",
+    "@parcel/transformer-webmanifest": "^2.8.2",
+    "babel-jest": "^29.5.0",
+    "cypress": "^12.7.0",
     "eslint": "^8.33.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.6.0",

@@ -1,8 +1,8 @@
 import { validator } from './validator';
 
-const navMenu = document.getElementById('nav-menu'),
-  toggleMenu = document.getElementById('toggle-menu'),
-  closeMenu = document.getElementById('close-menu');
+const navMenu = document.getElementById('nav-menu');
+const toggleMenu = document.getElementById('toggle-menu');
+const closeMenu = document.getElementById('close-menu');
 
 toggleMenu.addEventListener('click', () => {
   navMenu.classList.toggle('show');
@@ -12,23 +12,11 @@ closeMenu.addEventListener('click', () => {
   navMenu.classList.remove('show');
 });
 
-const setupEvents = () => {
-  setupNavLinkEvents();
-  setupNavMenuEvents();
-  setupSubmitEvent();
-};
-
-function toggleMobileMenu(menu) {
-  menu.classList.toggle('open');
-}
-
 const setupNavLinkEvents = () => {
   const $navLinks = document.querySelectorAll('.nav-link');
-  $navLinks.forEach(function ($navLink) {
-    $navLink.addEventListener('mouseenter', function () {
-      $navLinks.forEach(($internalNavLink) =>
-        $internalNavLink.classList.remove('active')
-      );
+  $navLinks.forEach(($navLink) => {
+    $navLink.addEventListener('mouseenter', () => {
+      $navLinks.forEach(($internalNavLink) => $internalNavLink.classList.remove('active'));
       $navLink.classList.add('active');
     });
   });
@@ -36,8 +24,8 @@ const setupNavLinkEvents = () => {
 
 const setupNavMenuEvents = () => {
   const $navMenus = document.querySelectorAll('.nav-menu');
-  $navMenus.forEach(function ($navMenu) {
-    $navMenu.addEventListener('mouseleave', function () {
+  $navMenus.forEach(($navMenu) => {
+    $navMenu.addEventListener('mouseleave', () => {
       const $navLink = $navMenu.parentElement.querySelector('.nav-link');
       $navLink.classList.remove('active');
     });
@@ -64,6 +52,12 @@ const setupSubmitEvent = () => {
   }
 };
 
-window.addEventListener('load', (event) => {
+const setupEvents = () => {
+  setupNavLinkEvents();
+  setupNavMenuEvents();
+  setupSubmitEvent();
+};
+
+window.addEventListener('load', () => {
   setupEvents();
 });
