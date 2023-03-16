@@ -1,4 +1,6 @@
+/* eslint-disable no-alert */
 import { validator } from './validator';
+import { postData } from './post';
 
 const navMenu = document.getElementById('nav-menu');
 const toggleMenu = document.getElementById('toggle-menu');
@@ -35,8 +37,14 @@ const showSucessAlert = ($form) => {
   setTimeout(() => {
     const name = $form.querySelector('input[name="name"]').value;
     const email = $form.querySelector('input[name="email"]').value;
-    alert(`O usuário ${name} foi registrado com o e-mail ${email}`);
-  }, 1);
+
+    postData('https://httpbin.org/post', {
+      name,
+      email,
+    }).then((data) => {
+      alert(`O usuário ${data.json.name} foi registrado com o e-mail ${data.json.email}`);
+    }).catch((error) => console.log(error));
+  });
 };
 
 const setupSubmitEvent = () => {

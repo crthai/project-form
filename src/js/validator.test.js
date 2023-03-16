@@ -1,4 +1,5 @@
 import { validator } from './validator';
+import {jest} from '@jest/globals';
 
 describe('InputValidation', () => {
   it('should validate the name correctly', () => {
