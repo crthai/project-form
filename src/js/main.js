@@ -1,8 +1,10 @@
+/* eslint-disable no-alert */
 import { validator } from './validator';
+import { postData } from './post';
 
-const navMenu = document.getElementById('nav-menu'),
-  toggleMenu = document.getElementById('toggle-menu'),
-  closeMenu = document.getElementById('close-menu');
+const navMenu = document.getElementById('nav-menu');
+const toggleMenu = document.getElementById('toggle-menu');
+const closeMenu = document.getElementById('close-menu');
 
 toggleMenu.addEventListener('click', () => {
   navMenu.classList.toggle('show');
@@ -12,23 +14,11 @@ closeMenu.addEventListener('click', () => {
   navMenu.classList.remove('show');
 });
 
-const setupEvents = () => {
-  setupNavLinkEvents();
-  setupNavMenuEvents();
-  setupSubmitEvent();
-};
-
-function toggleMobileMenu(menu) {
-  menu.classList.toggle('open');
-}
-
 const setupNavLinkEvents = () => {
   const $navLinks = document.querySelectorAll('.nav-link');
-  $navLinks.forEach(function ($navLink) {
-    $navLink.addEventListener('mouseenter', function () {
-      $navLinks.forEach(($internalNavLink) =>
-        $internalNavLink.classList.remove('active')
-      );
+  $navLinks.forEach(($navLink) => {
+    $navLink.addEventListener('mouseenter', () => {
+      $navLinks.forEach(($internalNavLink) => $internalNavLink.classList.remove('active'));
       $navLink.classList.add('active');
     });
   });
@@ -36,8 +26,8 @@ const setupNavLinkEvents = () => {
 
 const setupNavMenuEvents = () => {
   const $navMenus = document.querySelectorAll('.nav-menu');
-  $navMenus.forEach(function ($navMenu) {
-    $navMenu.addEventListener('mouseleave', function () {
+  $navMenus.forEach(($navMenu) => {
+    $navMenu.addEventListener('mouseleave', () => {
       const $navLink = $navMenu.parentElement.querySelector('.nav-link');
       $navLink.classList.remove('active');
     });
@@ -47,8 +37,14 @@ const showSucessAlert = ($form) => {
   setTimeout(() => {
     const name = $form.querySelector('input[name="name"]').value;
     const email = $form.querySelector('input[name="email"]').value;
-    alert(`O usuário ${name} foi registrado com o e-mail ${email}`);
-  }, 1);
+
+    postData('https://httpbin.org/post', {
+      name,
+      email,
+    }).then((data) => {
+      alert(`O usuário ${data.json.name} foi registrado com o e-mail ${data.json.email}`);
+    }).catch((error) => console.log(error));
+  });
 };
 
 const setupSubmitEvent = () => {
@@ -64,6 +60,12 @@ const setupSubmitEvent = () => {
   }
 };
 
-window.addEventListener('load', (event) => {
+const setupEvents = () => {
+  setupNavLinkEvents();
+  setupNavMenuEvents();
+  setupSubmitEvent();
+};
+
+window.addEventListener('load', () => {
   setupEvents();
 });
