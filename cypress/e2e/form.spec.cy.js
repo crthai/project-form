@@ -20,3 +20,26 @@ describe('template spec', () => {
     cy.get('.message-error').should('contain.text', 'name cannot be blank.');
   });
 });
+
+describe('loader', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:1234/');
+  });
+
+  it('shows the loading animation when the form is submitted', () => {
+    cy.get('#name').type('Fulana da Silva').should('have.value', 'Fulana da Silva');
+    cy.get('#email').type('fulaninha@gmail.com').should('have.value', 'fulaninha@gmail.com');
+    cy.get('#button-submit').click();
+    cy.get('#button-submit').should('be.disabled');
+    cy.get('#button-submit').should('have.html', '<div class="loader"></div>');
+  });
+
+  it('hides the loading animation when the form submission is complete', () => {
+    cy.get('#name').type('Fulaninha');
+    cy.get('#email').type('fulaninha@teste.com');
+    cy.get('#button-submit').click();
+    cy.wait(300);
+    cy.get('#button-submit').should('not.be.disabled');
+    cy.get('#button-submit').should('have.html', 'Submit');
+  });
+});
