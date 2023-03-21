@@ -30,8 +30,8 @@
   },
   "lint-staged": {
     "src/**/*.{js}": [
-       "npm lint"
-     ]
+        "npm lint"
+    ]
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
