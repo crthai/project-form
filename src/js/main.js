@@ -14,6 +14,34 @@ closeMenu.addEventListener('click', () => {
   navMenu.classList.remove('show');
 });
 
+const showLoadingAnimation = ($form) => {
+  const $submitButton = $form.querySelector('button[type="submit"]');
+  $submitButton.disabled = true;
+
+  const $inputs = $form.querySelectorAll('input');
+  $inputs.forEach(($input) => {
+    $input.disabled = true;
+  });
+
+  setTimeout(() => {
+    $submitButton.innerHTML = '<div class="loader"></div>';
+  }, 1);
+};
+
+const hideLoadingAnimation = ($form) => {
+  const $submitButton = $form.querySelector('button[type="submit"]');
+  $submitButton.disabled = false;
+  
+  const $inputs = $form.querySelectorAll('input');
+  $inputs.forEach(($input) => {
+    $input.disabled = false;
+  });
+
+  $submitButton.innerHTML = 'Submit';
+
+  
+};
+
 const setupNavLinkEvents = () => {
   const $navLinks = document.querySelectorAll('.nav-link');
   $navLinks.forEach(($navLink) => {
@@ -52,13 +80,26 @@ const postData = async ($form) => {
 };
 
 const setupSubmitEvent = () => {
-  const $form = document.getElementById('form');
-  if ($form) {
-    $form.addEventListener('submit', async (e) => {
+  const $submitForm = document.getElementById('form');
+  if ($submitForm) {
+    $submitForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const validForm = validator.validateForm($form);
-      if (validForm) {
-        await postData($form);
+      try {
+        showLoadingAnimation($submitForm);
+        const validForm = validator.validateForm($submitForm);
+        const $submitButton = $submitForm.querySelector('button[type="submit"]');
+
+
+        if (validForm) {
+          await postData($submitForm);
+          hideLoadingAnimation($submitForm);
+          console.log($submitButton);
+        } else {
+          console.log($submitButton);
+          hideLoadingAnimation($submitForm);
+        }
+      } catch (err) {
+        showAlert(err.message);
       }
     });
   }
