@@ -1,6 +1,6 @@
 const post = async (data) => {
   if (typeof data === 'undefined' || data == null) {
-    throw new Error(`httpbinService: no data to be sent`);
+    throw new Error('httpbinService: no data to be sent');
   }
 
   let body = {};
@@ -19,6 +19,6 @@ const post = async (data) => {
   } catch (error) {
     throw new Error(`httpbinService: ${error.message}`, error);
   }
-}
+};
 
 export { post };

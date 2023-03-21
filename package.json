@@ -29,12 +29,15 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js}": [
-        "npm lint"
+    "src/**/*.js": [
+      "eslint"
     ]
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@jest/globals": "^29.5.0",
     "@parcel/packager-raw-url": "^2.8.2",
     "@parcel/transformer-webmanifest": "^2.8.2",
     "babel-jest": "^29.5.0",
@@ -51,8 +54,5 @@
     "parcel": "^2.8.2",
     "parcel-reporter-static-files-copy": "^1.5.0",
     "prettier": "2.8.4"
-  },
-  "dependencies": {
-    "@jest/globals": "^29.5.0"
   }
 }
