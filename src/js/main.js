@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
-import { validator } from './validator';
-import { postData } from './post';
+import { validator } from './validator/validator';
+import { post } from './services/httpbinService';
 
 const navMenu = document.getElementById('nav-menu');
 const toggleMenu = document.getElementById('toggle-menu');
@@ -33,28 +33,32 @@ const setupNavMenuEvents = () => {
     });
   });
 };
-const showSucessAlert = ($form) => {
+
+const showAlert = (msg) => {
   setTimeout(() => {
+    alert(msg);
+  }, 300);
+};
+
+const postData = async ($form) => {
+  try {
     const name = $form.querySelector('input[name="name"]').value;
     const email = $form.querySelector('input[name="email"]').value;
-
-    postData('https://httpbin.org/post', {
-      name,
-      email,
-    }).then((data) => {
-      alert(`O usuário ${data.json.name} foi registrado com o e-mail ${data.json.email}`);
-    }).catch((error) => console.log(error));
-  });
+    response = await post({name, email});
+    showAlert(`O usuário ${response.json.name} foi registrado com o e-mail ${response.json.email}`);
+  } catch (err) {
+    showAlert(err.message)
+  }
 };
 
 const setupSubmitEvent = () => {
   const $form = document.getElementById('form');
   if ($form) {
-    $form.addEventListener('submit', (e) => {
+    $form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const validForm = validator.validateForm($form);
       if (validForm) {
-        showSucessAlert($form);
+        await postData($form);
       }
     });
   }
