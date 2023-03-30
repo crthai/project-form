@@ -14,32 +14,28 @@ closeMenu.addEventListener('click', () => {
   navMenu.classList.remove('show');
 });
 
-const showLoadingAnimation = ($form) => {
+const toggleButtonDisable = ($form) => {
   const $submitButton = $form.querySelector('button[type="submit"]');
-  $submitButton.disabled = true;
-
-  const $inputs = $form.querySelectorAll('input');
-  $inputs.forEach(($input) => {
-    $input.disabled = true;
-  });
-
-  setTimeout(() => {
-    $submitButton.innerHTML = '<div class="loader"></div>';
-  }, 1);
+  $submitButton.disabled = !$submitButton.disabled;
 };
 
-const hideLoadingAnimation = ($form) => {
+const toggleButtonAnimation = ($form) => {
   const $submitButton = $form.querySelector('button[type="submit"]');
-  $submitButton.disabled = false;
-  
+  $submitButton.classList.toggle('button-loading');
+};
+
+const toggleInputDisable = ($form) => {
   const $inputs = $form.querySelectorAll('input');
   $inputs.forEach(($input) => {
-    $input.disabled = false;
+    // eslint-disable-next-line no-param-reassign
+    $input.disabled = !$input.disabled;
   });
+};
 
-  $submitButton.innerHTML = 'Submit';
-
-  
+const toggleLoadingAnimation = ($form) => {
+  toggleButtonDisable($form);
+  toggleInputDisable($form);
+  toggleButtonAnimation($form);
 };
 
 const setupNavLinkEvents = () => {
@@ -72,36 +68,34 @@ const postData = async ($form) => {
   try {
     const name = $form.querySelector('input[name="name"]').value;
     const email = $form.querySelector('input[name="email"]').value;
-    response = await post({name, email});
+    const response = await post({ name, email });
     showAlert(`O usuário ${response.json.name} foi registrado com o e-mail ${response.json.email}`);
   } catch (err) {
-    showAlert(err.message)
+    showAlert(err.message);
+  }
+};
+
+const submitEventCallback = async (event, $form) => {
+  event.preventDefault();
+  try {
+    toggleLoadingAnimation($form);
+    const validForm = validator.validateForm($form);
+
+    if (validForm) {
+      await postData($form);
+      toggleLoadingAnimation($form);
+    } else {
+      toggleLoadingAnimation($form);
+    }
+  } catch (err) {
+    showAlert(err.message);
   }
 };
 
 const setupSubmitEvent = () => {
   const $submitForm = document.getElementById('form');
   if ($submitForm) {
-    $submitForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try {
-        showLoadingAnimation($submitForm);
-        const validForm = validator.validateForm($submitForm);
-        const $submitButton = $submitForm.querySelector('button[type="submit"]');
-
-
-        if (validForm) {
-          await postData($submitForm);
-          hideLoadingAnimation($submitForm);
-          console.log($submitButton);
-        } else {
-          console.log($submitButton);
-          hideLoadingAnimation($submitForm);
-        }
-      } catch (err) {
-        showAlert(err.message);
-      }
-    });
+    $submitForm.addEventListener('submit', (e) => submitEventCallback(e, $submitForm));
   }
 };
 

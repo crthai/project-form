@@ -7,7 +7,6 @@
     url('../fonts/icomoon.ttf?35kwmn') format('truetype'),
     url('../fonts/icomoon.woff?35kwmn') format('woff'),
     url('../fonts/icomoon.svg?35kwmn#icomoon') format('svg');
-    
   font-family: "icomoon";
   src: url("../fonts/icomoon.eot?rimhyg");
   src: url("../fonts/icomoon.eot?rimhyg#iefix") format("embedded-opentype"),
@@ -22,10 +21,6 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
-[class^="icon-"],
-[class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "icomoon" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -50,11 +45,9 @@
 .icon-e-mail:before {
   content: "\1f525";
 }
-=======
 .icon-happy:before {
   content: "\1f469";
 }
-
 .icon-e-mail:before {
   content: "\1f525";
 }
