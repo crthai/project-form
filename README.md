@@ -1,9 +1,8 @@
 # About The Project 
 ![project](https://user-images.githubusercontent.com/88345362/228698580-23862200-decb-4394-b1cb-675ee37899c0.png)
 ## Description 
-This project's page has a form that must be validated and some other components. If the form is validated, changes may happen in the page.
+This project's page has a form that must be validated and some other components. If the form is validated, changes must happen in the page. :construction_worker:
 
-    :construction:  in construction  :construction:
 # Getting Started
 ## Prerequisites
 * npm 
