@@ -3,7 +3,6 @@
 ## Description 
 This project's page has a form that must be validated and some other components. If the form is validated, changes may happen in the page.
 
-
     :construction:  in construction  :construction:
 # Getting Started
 ## Prerequisites
