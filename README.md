@@ -1,19 +1,13 @@
-# About The Project 
+# About The Project
 ![project](https://user-images.githubusercontent.com/88345362/228698580-23862200-decb-4394-b1cb-675ee37899c0.png)
-## Description 
+## Description
 This project's page has a form that must be validated and some other components. If the form is validated, changes must happen in the page. :construction_worker:
 
 # Getting Started
 ## Prerequisites
-* npm 
-```
-npm install npm@latest -g
 
-```
-* node 
 ```
 Node 16.14
-
 ```
 
 ## Installation
@@ -26,7 +20,7 @@ git clone https://github.com/crthai/project-form.git
 2. Install NPM packages
 
 ```
-npm install 
+npm install
 
 ```
 
@@ -36,8 +30,13 @@ npm install
 npm start
 
 ```
-### Test 
+### Test
 ```
-npm run test:e2e and npm test:cov
-
+npm run test:e2e
+```
+```
+npm run test:cov
+```
+```
+npm run test
 ```
