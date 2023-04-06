@@ -30,9 +30,7 @@ const setupNavMenuEvents = () => {
   });
 };
 
-const setupMenuEvents = () => {
+window.addEventListener('load', () => {
   setupNavLinkEvents();
   setupNavMenuEvents();
-};
-
-export { setupMenuEvents };
+});

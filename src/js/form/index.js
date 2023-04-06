@@ -66,4 +66,6 @@ const setupSubmitEvent = () => {
   }
 };
 
-export { setupSubmitEvent };
+window.addEventListener('load', () => {
+  setupSubmitEvent();
+});
