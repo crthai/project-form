@@ -30,17 +30,18 @@ describe('loader', () => {
     cy.get('#email').type('fulaninha@gmail.com').should('have.value', 'fulaninha@gmail.com');
     cy.get('#button-submit').click();
     cy.get('#button-submit').should('be.disabled');
-    cy.get('#button-submit').should('have.html', 'button-loading');
+    cy.get('#button-submit').should('have.class', 'button-loading');
   });
 
-  it('should disable input fields when button is clicked', () => {
+  it('should disable input fields when form is valid and button is clicked', () => {
     cy.visit('http://localhost:1234/');
 
     cy.get('#name').should('be.enabled');
     cy.get('#email').should('be.enabled');
+    cy.get('#name').type('Fulana da Silva').should('have.value', 'Fulana da Silva');
+    cy.get('#email').type('fulaninha@gmail.com').should('have.value', 'fulaninha@gmail.com');
 
     cy.get('#button-submit').click();
-    cy.wait(1000);
     cy.get('#name').should('be.disabled');
     cy.get('#email').should('be.disabled');
   });
