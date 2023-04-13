@@ -1,0 +1,5 @@
+@import '../../node_modules/pikaday/css/pikaday.css';
+
+#datepicker {
+ text-align: center;
+}

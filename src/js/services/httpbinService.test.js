@@ -2,7 +2,6 @@
 import { jest } from '@jest/globals';
 import { post } from './httpbinService';
 
-
 describe('httpbinService', () => {
   global.fetch = jest.fn();
 
@@ -31,7 +30,7 @@ describe('httpbinService', () => {
     expect.assertions(1);
     const data = { name: 'Fulaninha', email: 'fulaninha@test.com' };
     const responseMock = { json: () => data };
-    fetch.mockResolvedValueOnce(responseMock)
+    fetch.mockResolvedValueOnce(responseMock);
 
     const response = await post(data);
 
@@ -41,10 +40,10 @@ describe('httpbinService', () => {
   test('should throw an error if the server responds with an error', async () => {
     expect.assertions(1);
     const data = { name: 'Fulaninha', email: 'fulaninha@test.com' };
-    fetch.mockRejectedValueOnce(new Error('Async error message'))
+    fetch.mockRejectedValueOnce(new Error('Async error message'));
 
     await expect(async () => {
       await post(data);
-    }).rejects.toThrow("httpbinService: Async error message");
+    }).rejects.toThrow('httpbinService: Async error message');
   });
 });

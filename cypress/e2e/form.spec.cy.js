@@ -22,24 +22,26 @@ describe('template spec', () => {
 });
 
 describe('loader', () => {
-  beforeEach(() => {
+  it('should toggle button disable and animation', () => {
     cy.visit('http://localhost:1234/');
-  });
 
-  it('shows the loading animation when the form is submitted', () => {
+    cy.get('#button-submit').should('be.enabled');
     cy.get('#name').type('Fulana da Silva').should('have.value', 'Fulana da Silva');
     cy.get('#email').type('fulaninha@gmail.com').should('have.value', 'fulaninha@gmail.com');
     cy.get('#button-submit').click();
     cy.get('#button-submit').should('be.disabled');
-    cy.get('#button-submit').should('have.html', '<div class="loader"></div>');
+    cy.get('#button-submit').should('have.html', 'button-loading');
   });
 
-  it('hides the loading animation when the form submission is complete', () => {
-    cy.get('#name').type('Fulaninha');
-    cy.get('#email').type('fulaninha@teste.com');
+  it('should disable input fields when button is clicked', () => {
+    cy.visit('http://localhost:1234/');
+
+    cy.get('#name').should('be.enabled');
+    cy.get('#email').should('be.enabled');
+
     cy.get('#button-submit').click();
-    cy.wait(300);
-    cy.get('#button-submit').should('not.be.disabled');
-    cy.get('#button-submit').should('have.html', 'Submit');
+    cy.wait(1000);
+    cy.get('#name').should('be.disabled');
+    cy.get('#email').should('be.disabled');
   });
 });

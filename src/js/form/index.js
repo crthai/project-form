@@ -35,8 +35,10 @@ const postData = async ($form) => {
   try {
     const name = $form.querySelector('input[name="name"]').value;
     const email = $form.querySelector('input[name="email"]').value;
-    const response = await post({ name, email });
-    showAlert(`O usuário ${response.json.name} foi registrado com o e-mail ${response.json.email}`);
+    const date = $form.querySelector('input[name="date"]').value;
+
+    const response = await post({ name, email, date });
+    showAlert(`O usuário ${response.json.name} foi registrado com o e-mail ${response.json.email} e a data ${response.json.date}`);
   } catch (err) {
     showAlert(err.message);
   }
