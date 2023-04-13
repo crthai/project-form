@@ -31,14 +31,19 @@ const showAlert = (msg) => {
   }, 300);
 };
 
-const postData = async ($form) => {
+const postData = async (formData) => {
   try {
-    const name = $form.querySelector('input[name="name"]').value;
-    const email = $form.querySelector('input[name="email"]').value;
-    const date = $form.querySelector('input[name="date"]').value;
+    const data = {};
+    formData.forEach((value, key) => { data[key] = value; });
 
-    const response = await post({ name, email, date });
-    showAlert(`O usuário ${response.json.name} foi registrado com o e-mail ${response.json.email} e a data ${response.json.date}`);
+    const parts = data.birthday.split('/');
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+    data.birthday = `${year}-${month}-${day}`;
+
+    const response = await post(data);
+    showAlert(`O usuário ${response.json.name} foi registrado com o e-mail ${response.json.email} e a data ${response.json.birthday}`);
   } catch (err) {
     showAlert(err.message);
   }
@@ -47,11 +52,12 @@ const postData = async ($form) => {
 const submitEventCallback = async (event, $form) => {
   event.preventDefault();
   try {
+    const formData = new FormData($form);
     toggleLoadingAnimation($form);
     const validForm = validator.validateForm($form);
 
     if (validForm) {
-      await postData($form);
+      await postData(formData);
       toggleLoadingAnimation($form);
     } else {
       toggleLoadingAnimation($form);
