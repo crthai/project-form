@@ -1,4 +1,6 @@
-.autocomplete-input{
+@import url('../../node_modules/@tarekraafat/autocomplete.js/dist/css/autoComplete.css');
+
+/* .autocomplete-input{
     padding: 25px 15px;
     width: calc(100% - 50px);
     border-radius: 1px;
@@ -29,4 +31,4 @@
     width: calc(100% - 30px);
     font-weight: bold;
     cursor: pointer;
-}
+} */
