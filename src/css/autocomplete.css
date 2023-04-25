@@ -1,34 +1,6 @@
-@import url('../../node_modules/@tarekraafat/autocomplete.js/dist/css/autoComplete.css');
+@import url('../../node_modules/@tarekraafat/autocomplete.js/dist/css/autoComplete.01.css');
 
-/* .autocomplete-input{
-    padding: 25px 15px;
-    width: calc(100% - 50px);
-    border-radius: 1px;
-    border: none;
-    outline: none;
-    color: #48438F;
-    font-weight: bold;
-    background-color: #FFF;
+.form-control .autoComplete_wrapper > ul > li, .form-control .autoComplete_wrapper > ul > p {
+  color: #212121;
 }
 
-.autocomplete-input::placeholder {
-    color: #48438F;
-}
-
-.autocomplete-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #FFF;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.autocomplete-list li {
-    color: #48438F;
-    padding: 15px;
-    width: calc(100% - 30px);
-    font-weight: bold;
-    cursor: pointer;
-} */

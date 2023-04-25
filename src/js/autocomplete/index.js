@@ -1,42 +1,5 @@
 import AutoComplete from '@tarekraafat/autocomplete.js';
-import { getStates } from '../services/ibgeService';
-
-// const cityListElement = document.getElementById('city-list');
-// const cityInputElement = document.getElementById('city');
-// const stateElement = document.getElementById('state');
-
-// const loadCities = async (cities, element, searchTerm) => {
-//   if (cities) {
-//     const filteredCities = searchTerm
-//       ? cities.filter((city) => city.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-//       : cities;
-//     element.innerHTML = filteredCities
-//       .map((city) => {
-//         const cityItem = document.createElement('li');
-//         cityItem.textContent = city.nome;
-//         return cityItem.outerHTML;
-//       })
-//       .join('');
-//   }
-// };
-
-// cityListElement.addEventListener('click', (event) => {
-//   if (event.target && event.target.nodeName === 'LI') {
-//     cityInputElement.value = event.target.textContent;
-
-//     const cityItems = document.querySelectorAll('#city-list li');
-//     cityItems.forEach((item) => {
-//       item.style.display = 'none';
-//     });
-//   }
-// });
-
-// cityInputElement.addEventListener('input', async () => {
-//   const state = stateElement.value;
-//   const cities = await getCities(state);
-//   const searchTerm = cityInputElement.value;
-//   loadCities(cities, cityListElement, searchTerm);
-// });
+import { getStates, getCities } from '../services/ibgeService';
 
 // 1 - ao carregar a página, o select de estado deve ser preenchido com as opções dos estado brasileiros
 const loadStates = async () => {
@@ -51,18 +14,99 @@ const loadStates = async () => {
     resultItem: {
       highlight: true,
       element: (item, data) => {
+        // eslint-disable-next-line no-param-reassign
         item.innerHTML = `${data.value.nome} - ${data.value.sigla}`;
       },
     },
     threshold: 2,
     debounce: 300,
     diacritics: true,
+    resultsList: {
+      element: (list, data) => {
+        const info = document.createElement('p');
+        if (data.results.length > 0) {
+          info.innerHTML = `Displaying <strong>${data.results.length}</strong> out of <strong>${data.matches.length}</strong> results`;
+        } else {
+          info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+        }
+        list.prepend(info);
+      },
+      noResults: true,
+      maxResults: 15,
+      tabSelect: true,
+    },
   };
   const stateAutoComplete = new AutoComplete(config);
+  const stateInput = document.getElementById('state');
+
+  stateAutoComplete.input.addEventListener('selection', async (event) => {
+    const feedback = event.detail;
+    const selection = `${feedback.selection.value.nome} - ${feedback.selection.value.sigla}`;
+    stateAutoComplete.input.value = selection;
+    stateInput.value = selection;
+    await loadCities(feedback.selection.value.sigla);
+  });
+
+  stateAutoComplete.input.addEventListener('open', async () => {
+    stateInput.value = '';
+    await loadCities();
+  });
+};
+
+const loadCities = async (uf) => {
+  let cities = [];
+  const $cityInput = document.getElementById('cityAutoComplete');
+  if (typeof uf === 'string' && uf.length === 2) {
+    $cityInput.disabled = true;
+    cities = await getCities(uf);
+  }
+  const config = {
+    selector: '#cityAutoComplete',
+    placeHolder: 'Search for a city...',
+    data: {
+      src: cities,
+      keys: ['nome'],
+    },
+    resultItem: {
+      highlight: true,
+      element: (item, data) => {
+        // eslint-disable-next-line no-param-reassign
+        item.innerHTML = `${data.value.nome}`;
+      },
+    },
+    threshold: 2,
+    debounce: 300,
+    diacritics: true,
+    resultsList: {
+      element: (list, data) => {
+        const info = document.createElement('p');
+        if (data.results.length > 0) {
+          info.innerHTML = `Displaying <strong>${data.results.length}</strong> out of <strong>${data.matches.length}</strong> results`;
+        } else {
+          info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+        }
+        list.prepend(info);
+      },
+      noResults: true,
+      maxResults: 15,
+      tabSelect: true,
+    },
+  };
+  const citiesAutoComplete = new AutoComplete(config);
+
+  citiesAutoComplete.input.addEventListener('selection', async (event) => {
+    const feedback = event.detail;
+    const selection = `${feedback.selection.value.nome}`;
+    citiesAutoComplete.input.value = selection;
+  });
+  if (cities.length) {
+    $cityInput.disabled = false;
+  }
 };
 
 window.addEventListener('load', async () => {
   await loadStates();
+  await loadCities();
   // setupStateChangeEvent();
 });
 
