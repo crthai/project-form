@@ -11,6 +11,7 @@ const createBirthdayDatePicker = () => {
     field: document.getElementById('birthday'),
     firstDay: 1,
     minDate,
+    maxDate: new Date(),
     toString(date, format) {
       const day = addLeadingZeros(date.getDate());
       const month = addLeadingZeros(date.getMonth() + 1);

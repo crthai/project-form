@@ -1,15 +1,25 @@
 import AutoComplete from '@tarekraafat/autocomplete.js';
 import { getStates, getCities } from '../services/ibgeService';
 
-// 1 - ao carregar a página, o select de estado deve ser preenchido com as opções dos estado brasileiros
 const loadStates = async () => {
-  const states = await getStates();
   const config = {
     selector: '#stateAutoComplete',
     placeHolder: 'Search for a UF...',
     data: {
-      src: states,
-      keys: ['nome', 'sigla'],
+      src: async () => {
+        try {
+          const $stateAutocompleteInput = document.getElementById('stateAutoComplete');
+          $stateAutocompleteInput.setAttribute('placeholder', 'Loading...');
+          const data = await getStates();
+          $stateAutocompleteInput
+            .setAttribute('placeholder', 'Search for a UF...');
+          return data;
+        } catch (error) {
+          return error;
+        }
+      },
+      cache: true,
+      keys: ['nome'],
     },
     resultItem: {
       highlight: true,
@@ -36,22 +46,30 @@ const loadStates = async () => {
       tabSelect: true,
     },
   };
-  const stateAutoComplete = new AutoComplete(config);
-  const stateInput = document.getElementById('state');
+  const $stateAutoComplete = new AutoComplete(config);
+  const $stateInput = document.getElementById('state');
 
-  stateAutoComplete.input.addEventListener('selection', async (event) => {
+  $stateAutoComplete.input.addEventListener('selection', async (event) => {
     const feedback = event.detail;
     const selection = `${feedback.selection.value.nome} - ${feedback.selection.value.sigla}`;
-    stateAutoComplete.input.value = selection;
+    $stateAutoComplete.input.value = selection;
     document.getElementById('cityAutoComplete').disabled = false;
-    if (stateInput.value !== feedback.selection.value.sigla) {
+    if ($stateInput.value !== feedback.selection.value.sigla) {
       document.getElementById('cityAutoComplete').value = '';
-      stateInput.value = feedback.selection.value.sigla;
+      $stateInput.value = feedback.selection.value.sigla;
+      $stateInput.dataset.selection = selection;
     }
   });
 
-  stateAutoComplete.input.addEventListener('open', async () => {
+  $stateAutoComplete.input.addEventListener('open', async () => {
     document.getElementById('cityAutoComplete').disabled = true;
+  });
+
+  $stateAutoComplete.input.addEventListener('close', () => {
+    if ($stateInput.dataset.selection) {
+      $stateAutoComplete.input.value = $stateInput.dataset.selection;
+      document.getElementById('cityAutoComplete').disabled = false;
+    }
   });
 };
 
@@ -128,6 +146,3 @@ window.addEventListener('load', async () => {
   await loadStates();
   await loadCities();
 });
-
-
-// 4 - ao apagar o select de estado, o select de cidade deve ser apagado tambem (opçoes e valor) e ficar bloqueado
