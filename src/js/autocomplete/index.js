@@ -1,15 +1,25 @@
 import AutoComplete from '@tarekraafat/autocomplete.js';
 import { getStates, getCities } from '../services/ibgeService';
 
-// 1 - ao carregar a página, o select de estado deve ser preenchido com as opções dos estado brasileiros
 const loadStates = async () => {
-  const states = await getStates();
   const config = {
     selector: '#stateAutoComplete',
     placeHolder: 'Search for a UF...',
     data: {
-      src: states,
-      keys: ['nome', 'sigla'],
+      src: async () => {
+        try {
+          const $stateAutocompleteInput = document.getElementById('stateAutoComplete');
+          $stateAutocompleteInput.setAttribute('placeholder', 'Loading...');
+          const data = await getStates();
+          $stateAutocompleteInput
+            .setAttribute('placeholder', 'Search for a UF...');
+          return data;
+        } catch (error) {
+          return error;
+        }
+      },
+      cache: true,
+      keys: ['nome'],
     },
     resultItem: {
       highlight: true,
@@ -36,35 +46,55 @@ const loadStates = async () => {
       tabSelect: true,
     },
   };
-  const stateAutoComplete = new AutoComplete(config);
-  const stateInput = document.getElementById('state');
+  const $stateAutoComplete = new AutoComplete(config);
+  const $stateInput = document.getElementById('state');
 
-  stateAutoComplete.input.addEventListener('selection', async (event) => {
+  $stateAutoComplete.input.addEventListener('selection', async (event) => {
     const feedback = event.detail;
     const selection = `${feedback.selection.value.nome} - ${feedback.selection.value.sigla}`;
-    stateAutoComplete.input.value = selection;
-    stateInput.value = selection;
-    await loadCities(feedback.selection.value.sigla);
+    $stateAutoComplete.input.value = selection;
+    document.getElementById('cityAutoComplete').disabled = false;
+    if ($stateInput.value !== feedback.selection.value.sigla) {
+      document.getElementById('cityAutoComplete').value = '';
+      $stateInput.value = feedback.selection.value.sigla;
+      $stateInput.dataset.selection = selection;
+    }
   });
 
-  stateAutoComplete.input.addEventListener('open', async () => {
-    stateInput.value = '';
-    await loadCities();
+  $stateAutoComplete.input.addEventListener('open', async () => {
+    document.getElementById('cityAutoComplete').disabled = true;
+  });
+
+  $stateAutoComplete.input.addEventListener('close', () => {
+    if ($stateInput.dataset.selection) {
+      $stateAutoComplete.input.value = $stateInput.dataset.selection;
+      document.getElementById('cityAutoComplete').disabled = false;
+    }
   });
 };
 
-const loadCities = async (uf) => {
-  let cities = [];
+const loadCities = async () => {
   const $cityInput = document.getElementById('cityAutoComplete');
-  if (typeof uf === 'string' && uf.length === 2) {
-    $cityInput.disabled = true;
-    cities = await getCities(uf);
-  }
+
   const config = {
     selector: '#cityAutoComplete',
     placeHolder: 'Search for a city...',
     data: {
-      src: cities,
+      src: async () => {
+        try {
+          $cityInput.setAttribute('placeholder', 'Loading...');
+          const uf = document.getElementById('state').value;
+          let data = [];
+          if (uf) {
+            data = await getCities(uf);
+          }
+          $cityInput
+            .setAttribute('placeholder', 'Search for a city...');
+          return data;
+        } catch (error) {
+          return error;
+        }
+      },
       keys: ['nome'],
     },
     resultItem: {
@@ -91,6 +121,17 @@ const loadCities = async (uf) => {
       maxResults: 15,
       tabSelect: true,
     },
+    events: {
+      input: {
+        focus: () => {
+          // eslint-disable-next-line no-use-before-define
+          if (citiesAutoComplete.input.value.length) {
+            // eslint-disable-next-line no-use-before-define
+            citiesAutoComplete.start();
+          }
+        },
+      },
+    },
   };
   const citiesAutoComplete = new AutoComplete(config);
 
@@ -99,18 +140,9 @@ const loadCities = async (uf) => {
     const selection = `${feedback.selection.value.nome}`;
     citiesAutoComplete.input.value = selection;
   });
-  if (cities.length) {
-    $cityInput.disabled = false;
-  }
 };
 
 window.addEventListener('load', async () => {
   await loadStates();
   await loadCities();
-  // setupStateChangeEvent();
 });
-
-// 2 - ao escolher uma opção no select de estados, o select de cidades deve ser preenchido com as opções das cidades daquele estado
-// 3 - ao apagar o valor do select de cidade, nada acontece
-// 4 - ao apagar o select de estado, o select de cidade deve ser apagado tambem (opçoes e valor) e ficar bloqueado
-// 5 - ao selecionar um novo estado, o select de cidade carrega as opçoes e desbloqueia
