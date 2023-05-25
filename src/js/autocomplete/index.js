@@ -1,6 +1,28 @@
 import AutoComplete from '@tarekraafat/autocomplete.js';
 import { getStates, getCities } from '../services/ibgeService';
 
+class Observable {
+  constructor() {
+    this.observers = [];
+  }
+
+  subscribe(observer) {
+    this.observers.push(observer);
+  }
+
+  unsubscribe(observer) {
+    this.observers = this.observers.filter((obs) => obs !== observer);
+  }
+
+  notify(event, data) {
+    this.observers.forEach((observer) => observer(event, data));
+  }
+}
+
+const stateObservable = new Observable();
+const citiesObservable = new Observable();
+const $cityInput = document.getElementById('cityAutoComplete');
+
 const loadStates = async () => {
   const config = {
     selector: '#stateAutoComplete',
@@ -58,6 +80,7 @@ const loadStates = async () => {
       document.getElementById('cityAutoComplete').value = '';
       $stateInput.value = feedback.selection.value.sigla;
       $stateInput.dataset.selection = selection;
+      stateObservable.notify('stateChange', feedback.selection.value.sigla);
     }
   });
 
@@ -71,11 +94,18 @@ const loadStates = async () => {
       document.getElementById('cityAutoComplete').disabled = false;
     }
   });
+
+  stateObservable.subscribe((event, data) => {
+    if (event === 'stateChange') {
+      $stateInput.value = data;
+      $stateInput.dataset.selection = data;
+      $cityInput.value = '';
+      citiesObservable.notify('stateChange', data);
+    }
+  });
 };
 
 const loadCities = async () => {
-  const $cityInput = document.getElementById('cityAutoComplete');
-
   const config = {
     selector: '#cityAutoComplete',
     placeHolder: 'Search for a city...',
@@ -135,10 +165,29 @@ const loadCities = async () => {
   };
   const citiesAutoComplete = new AutoComplete(config);
 
+  const loadCitiesForState = async (state) => {
+    try {
+      // Código para carregar as cidades do estado fornecido
+      const cities = await getCities(state);
+      citiesAutoComplete.data.src = () => Promise.resolve(cities);
+      citiesAutoComplete.input.value = '';
+    } catch (error) {
+      console.error('Error loading cities:', error);
+    }
+  };
+
   citiesAutoComplete.input.addEventListener('selection', async (event) => {
     const feedback = event.detail;
     const selection = `${feedback.selection.value.nome}`;
     citiesAutoComplete.input.value = selection;
+    citiesObservable.notify('citySelection', selection);
+  });
+
+  citiesObservable.subscribe((event, data) => {
+    if (event === 'stateChange') {
+      $cityInput.value = '';
+      loadCitiesForState(data);
+    }
   });
 };
 

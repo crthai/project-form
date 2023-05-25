@@ -1,5 +1,9 @@
 @import '../../node_modules/pikaday/css/pikaday.css';
 
 #datepicker {
- text-align: center;
+ border: 2px solid #f0f0f0;
+ border-radius: 4px;
+ display: block;
+ font-size: 14px;
+ width: 100%;
 }

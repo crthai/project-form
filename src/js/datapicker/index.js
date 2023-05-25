@@ -31,3 +31,5 @@ const createBirthdayDatePicker = () => {
 window.addEventListener('load', () => {
   createBirthdayDatePicker();
 });
+
+export { createBirthdayDatePicker };
