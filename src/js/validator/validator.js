@@ -25,6 +25,17 @@ const validator = {
       },
       message: () => 'Invalid email format',
     },
+    date: {
+      validate: ($input) => {
+        const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+        return regex.test($input.value);
+      },
+      message: () => 'Invalid date format (dd/mm/yyyy)',
+    },
+    state: {
+      validate: ($input) => $input.value.length > 0,
+      message: () => 'State cannot be blank.',
+    },
   },
   validateForm: ($form) => {
     const $inputs = $form.querySelectorAll('input');
@@ -57,7 +68,6 @@ const validator = {
           }
         } catch (error) {
           throw new Error(
-            'Ops, aconteceu um erro na validação do campo',
             error,
           );
         }

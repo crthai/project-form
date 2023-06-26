@@ -60,16 +60,22 @@
           </div>
           <div class="form-control">
             <label for="birthday">Date of birth: </label>
-            <input type="text" id="birthday" name="birthday" placeholder="dd/mm/yyyy" autocomplete="off" />
+            <input type="text" id="birthday" name="birthday" placeholder="dd/mm/yyyy" autocomplete="off" data-vt-validations="required|date"
+            />
+            <p class="message-error">Error message</p>
           </div>
           <div class="form-control">
             <label for="stateAutoComplete">State: </label>
-            <input id="stateAutoComplete" name="stateAutoComplete" autocomplete="stateAutoComplete"></input>
+            <input id="stateAutoComplete" name="stateAutoComplete" autocomplete="stateAutoComplete" data-vt-validations="required|state"
+            ></input>
+            <p class="message-error">Error message</p>
             <input id="state" name="state" type="hidden"></input>
           </div>
           <div class="form-control">
             <label for="cityAutoComplete">City: </label>
-            <input id="cityAutoComplete" name="cityAutoComplete" autocomplete="cityAutoComplete" disabled></input>
+            <input id="cityAutoComplete" name="cityAutoComplete" autocomplete="cityAutoComplete" disabled data-vt-validations="required"
+            ></input>
+            <p class="message-error">Error message</p>
           </div>
           <div class="form-control">
             <label for="email">E-mail: </label>
