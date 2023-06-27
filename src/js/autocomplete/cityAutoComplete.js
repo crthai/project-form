@@ -8,10 +8,8 @@ class CityAutoComplete {
 
   $cityAutoComplete = null;
 
-  cities = [];
-
   constructor($stateAutoComplete) {
-    this.$cityAutoComplete = new AutoComplete(this.getConfig());
+    this.$cityAutoComplete = new AutoComplete(CityAutoComplete.getConfig());
     this.registerEvents(this.$cityAutoComplete);
 
     $stateAutoComplete.subscribe(this.stateAutoCompleteObserverHandler.bind(this));
@@ -23,7 +21,7 @@ class CityAutoComplete {
     const data = await getCities(state);
     this.$cityAutocompleteInput
       .setAttribute('placeholder', 'Search for a city...');
-    this.cities = data;
+    this.$cityAutoComplete.data.src = data;
   }
 
   static setElementInnerHtml(item, data) {
@@ -41,24 +39,23 @@ class CityAutoComplete {
     list.prepend(info);
   }
 
-  getConfig() {
+  static getConfig() {
     const config = {
       selector: '#cityAutoComplete',
       placeHolder: 'Search for a city...',
       data: {
-        src: this.cities,
-        cache: true,
+        src: [],
         keys: ['nome'],
       },
       resultItem: {
         highlight: true,
-        element: this.setElementInnerHtml,
+        element: CityAutoComplete.setElementInnerHtml,
       },
       threshold: 2,
       debounce: 300,
       diacritics: true,
       resultsList: {
-        element: this.addMatchingResultsInfo,
+        element: CityAutoComplete.addMatchingResultsInfo,
         noResults: true,
         maxResults: 15,
         tabSelect: true,
