@@ -14,15 +14,11 @@ class StateAutoComplete extends Observable {
   }
 
   async loadData() {
-    // try {
     this.$stateAutocompleteInput.setAttribute('placeholder', 'Loading...');
     const data = await getStates();
     this.$stateAutocompleteInput
       .setAttribute('placeholder', 'Search for a UF...');
     return data;
-    // } catch (error) {
-    //   return error;
-    // }
   }
 
   static setElementInnerHtml(item, data) {
@@ -51,13 +47,13 @@ class StateAutoComplete extends Observable {
       },
       resultItem: {
         highlight: true,
-        element: this.setElementInnerHtml,
+        element: StateAutoComplete.setElementInnerHtml,
       },
       threshold: 2,
       debounce: 300,
       diacritics: true,
       resultsList: {
-        element: this.addMatchingResultsInfo,
+        element: StateAutoComplete.addMatchingResultsInfo,
         noResults: true,
         maxResults: 15,
         tabSelect: true,
